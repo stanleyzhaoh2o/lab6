@@ -1,11 +1,12 @@
 module datapath
 (
-		input logic Clk, Reset, LD_MDR, LD_MAR, LD_IR, LD_PC, LD_CC,
+		input logic Clk, Reset, LD_MDR, LD_MAR, LD_IR, LD_PC, LD_CC, LD_BEN,
 		input logic GateMDR, GatePC, GateALU, GateMARMUX, MIO_EN,
 		input logic [1:0] PCMUX,
 		input logic [15:0] Data_from_SRAM, 
 		output logic [15:0] IR, MAR,
-		output logic [15:0] MDR, PC
+		output logic [15:0] MDR, PC,
+		output logic BEN
 );
 
 		logic [15:0] MDRval, BUS, PCplus1, PCval;
@@ -28,7 +29,8 @@ module datapath
 		mux4 pcmux(.d0(PCplus1), .d1(16'b0), .d2(16'b0), .d3(16'b0), .s(PCMUX), .y(PCval));
 		register PC1(.Clk(Clk), .Reset(Reset), .Load(LD_PC), .Data_in(PCval), .Data_out(PC));
 		
-		NZP nzp(.*);
+		NZP_reg nzp(.*);
+		BEN_reg ben(.Clk(Clk), .N(N_out), .Z(Z_out), .P(P_out), .LD_BEN(LD_BEN), .IR_sub(IR[11:9]), .BEN(BEN));
 		
 		always_comb begin
 			if (BUS[15]) begin
@@ -48,11 +50,11 @@ module datapath
 				begin
 					N_in = 1'b0;
 					Z_in = 1'b0;
-					P_in = 1'b0;
+					P_in = 1'b1;
 				end
 				endcase
 			end
 		end
-			
+		
 							
 endmodule
