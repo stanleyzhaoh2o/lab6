@@ -1,4 +1,5 @@
-module NZP(
+module NZP_reg
+(
 	input logic Clk,
 	input logic N_in,
 	input logic Z_in,
