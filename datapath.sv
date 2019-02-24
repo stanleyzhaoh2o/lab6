@@ -17,17 +17,17 @@ module datapath
 		BUS_MUX BUSnew (.d0(PC), .d1(MDR), .d2(/*ALU*/ 16'b0), .d3(/*MARMUX*/ 16'b0), .s({GatePC, GateMDR, GateALU, GateMARMUX}), .y(BUS));
 		
 		//BUS to MAR
-		register MAR1(.Clk(Clk), .Reset(Reset), .Load(LD_MAR), .Data_in(BUS), .Data_out(MAR));
+		register MAR_reg(.Clk(Clk), .Reset(Reset), .Load(LD_MAR), .Data_in(BUS), .Data_out(MAR));
 		
 		//first choose from the BUS and M[MAR], then put it into MDR
 		mux2 MDRnew (.d0(BUS), .d1(Data_from_SRAM), .s(MIO_EN), .y(MDRval));
-		register MDR1(.Clk(Clk), .Reset(Reset), .Load(LD_MDR), .Data_in(MDRval), .Data_out(MDR));
+		register MDR_reg(.Clk(Clk), .Reset(Reset), .Load(LD_MDR), .Data_in(MDRval), .Data_out(MDR));
 		
 		//MDR to IR
 		assign PCplus1 = PC+1;
-		register IR1(.Clk(Clk), .Reset(Reset), .Load(LD_IR), .Data_in(BUS), .Data_out(IR));
+		register IR_reg(.Clk(Clk), .Reset(Reset), .Load(LD_IR), .Data_in(BUS), .Data_out(IR));
 		mux4 pcmux(.d0(PCplus1), .d1(16'b0), .d2(16'b0), .d3(16'b0), .s(PCMUX), .y(PCval));
-		register PC1(.Clk(Clk), .Reset(Reset), .Load(LD_PC), .Data_in(PCval), .Data_out(PC));
+		register PC_reg(.Clk(Clk), .Reset(Reset), .Load(LD_PC), .Data_in(PCval), .Data_out(PC));
 		
 		NZP_reg nzp(.*);
 		BEN_reg ben(.Clk(Clk), .N(N_out), .Z(Z_out), .P(P_out), .LD_BEN(LD_BEN), .IR_sub(IR[11:9]), .BEN(BEN));
