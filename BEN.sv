@@ -1,4 +1,4 @@
-module BEN
+module BEN_reg
 (
 		input logic Clk,
 		input logic N,
