@@ -34,23 +34,23 @@ module datapath
 		
 		always_comb begin
 			if (BUS[15]) begin
-				N_in = 1'b1;
-				Z_in = 1'b0;
-				P_in = 1'b0;
+				N_in <= 1'b1;
+				Z_in <= 1'b0;
+				P_in <= 1'b0;
 			end
 			else begin
 				case (BUS)
 					16'b0:
 						begin
-							N_in = 1'b0;
-							Z_in = 1'b1;
-							P_in = 1'b0;
+							N_in <= 1'b0;
+							Z_in <= 1'b1;
+							P_in <= 1'b0;
 						end
 				default:
 				begin
-					N_in = 1'b0;
-					Z_in = 1'b0;
-					P_in = 1'b1;
+					N_in <= 1'b0;
+					Z_in <= 1'b0;
+					P_in <= 1'b1;
 				end
 				endcase
 			end
