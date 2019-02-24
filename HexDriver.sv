@@ -4,8 +4,8 @@ module HexDriver (input  logic[3:0]  In0,
 	always_comb
 	begin
 		unique case (In0)
-	 	   4'b0000   : Out0 = 7'b1000000; // '1'
-	 	   4'b0001   : Out0 = 7'b1111001; // '2'
+	 	   4'b0000   : Out0 = 7'b1000000; // '0'
+	 	   4'b0001   : Out0 = 7'b1111001; // '1'
 		   4'b0010   : Out0 = 7'b0100100; // '2'
 	 	   4'b0011   : Out0 = 7'b0110000; // '3'
 	 	   4'b0100   : Out0 = 7'b0011001; // '4'
@@ -21,8 +21,8 @@ module HexDriver (input  logic[3:0]  In0,
 	 	   4'b1110   : Out0 = 7'b0000110; // 'E'
 	 	   4'b1111   : Out0 = 7'b0001110; // 'F'
 	 	   default   : Out0 = 7'bXXXXXXX; // undefined output
-        end
-	endcase
+		endcase
+	end
 
 endmodule
 
