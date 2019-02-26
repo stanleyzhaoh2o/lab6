@@ -52,6 +52,8 @@ module BUS_MUX
 					y = d2;
 				4'b0001:
 					y = d3;
+				default:
+					y = 16'h0;
 			endcase
 		end
 endmodule
