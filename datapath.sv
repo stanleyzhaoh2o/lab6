@@ -3,7 +3,8 @@ module datapath
 		input logic Clk, Reset, LD_MDR, LD_MAR, LD_IR, LD_PC, LD_CC, LD_BEN,
 		input logic GateMDR, GatePC, GateALU, GateMARMUX, MIO_EN,
 		input logic [1:0] PCMUX,
-		input logic [15:0] Data_from_SRAM, 
+		input logic [15:0] MDR_In,
+		//input logic [15:0] Data_from_SRAM, 
 		output logic [15:0] IR, MAR,
 		output logic [15:0] MDR, PC,
 		output logic BEN
@@ -20,7 +21,9 @@ module datapath
 		register MAR_reg(.Clk(Clk), .Reset(Reset), .Load(LD_MAR), .Data_in(BUS), .Data_out(MAR));
 		
 		//first choose from the BUS and M[MAR], then put it into MDR
-		mux2 MDRnew (.d0(BUS), .d1(Data_from_SRAM), .s(MIO_EN), .y(MDRval));
+		//mux2 MDRnew (.d0(BUS), .d1(/*MDR_In*/), .s(MIO_EN), .y(MDRval));
+		
+		mux2 mdrMux(.d0(BUS), .d1(MDR_In), .s(MIO_EN), .y(MDRval));
 		register MDR_reg(.Clk(Clk), .Reset(Reset), .Load(LD_MDR), .Data_in(MDRval), .Data_out(MDR));
 		
 		//MDR to IR
@@ -31,6 +34,7 @@ module datapath
 		
 		NZP_reg nzp(.*);
 		BEN_reg ben(.Clk(Clk), .N(N_out), .Z(Z_out), .P(P_out), .LD_BEN(LD_BEN), .IR_sub(IR[11:9]), .BEN(BEN));
+		
 		
 		always_comb begin
 			if (BUS[15]) begin
@@ -56,5 +60,6 @@ module datapath
 			end
 		end
 		
+
 							
 endmodule
